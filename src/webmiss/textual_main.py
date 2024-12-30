@@ -11,6 +11,9 @@ import importlib.resources
 INIT_PERF_COUNT =  time.perf_counter()
 
 class Clock(Static):
+    '''
+    Abandoned
+    '''
     text: Reactive[str] = Reactive("") 
     init_perf_count:float = time.perf_counter()
     now_perf_count:float = 0
@@ -110,7 +113,7 @@ class MainApp(App):
     def on_mount(self) -> None:
         # Set the app's theme
         self.theme = "nord"
-        # self.theme = "gruvbox"
+        self.theme = "gruvbox"
         
     def compose(self) -> ComposeResult:
         yield MainView()
