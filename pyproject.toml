@@ -1,0 +1,19 @@
+[project]
+name = "webmiss"
+version = "0.1.0"
+description = "To be supplemented."
+authors = [
+    {name = "hamster88", email = "hamster88@users.noreply.github.com"},
+]
+dependencies = ["textual>=1.0.0", "requests>=2.32.3"]
+requires-python = ">=3.8.1"
+readme = "README.md"
+license = {text = "MIT"}
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
+
+[tool.pdm]
+distribution = true
