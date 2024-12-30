@@ -8,6 +8,8 @@ from textual.timer import Timer
 from pprint import pprint
 import importlib.resources 
 
+INIT_PERF_COUNT =  time.perf_counter()
+
 class Clock(Static):
     text: Reactive[str] = Reactive("") 
     init_perf_count:float = time.perf_counter()
@@ -24,22 +26,12 @@ class Clock(Static):
         ftime =  time.strftime("%H:%M:%S", time.gmtime(self.now_perf_count))
 
         self.text = ftime
-        self.update(self.text)
-        
-class Overview(Widget):
-    id = 'overview'
-    def __init__(self):
-        super().__init__(id='overview')
-        
-    def compose(self):
-        # yield Clock()
-        yield Details({'count': 99999,'byte': '114g'})
-        
-    
+        self.update(self.text)    
 
 class Details(Widget):
-    data:dict 
-    title:str 
+    data:dict =  Reactive({})
+    title:str  = Reactive('')
+    
     def __init__(self,  data:dict, title=None, classes=''):
         details_classes = 'details ' + (title and ' ' or 'no-title ')
         classes = details_classes + classes
@@ -71,8 +63,26 @@ class ContentView(Static):
     def compose(self) -> ComposeResult:
         yield Details({'y':2,'zzz':123}, 'Running')
         yield Details({'y':2,'zzz':123}, 'Finished')
-        yield Details({'error': 'none','submit':'some task'}, 'Message')
+        yield MessageView({'error': 'none','submit':'some task'}, 'Message')
 
+
+class MessageView(Details):
+    clock: Reactive[str] = Reactive("") 
+    init_perf_count:float = INIT_PERF_COUNT
+    now_perf_count:float = init_perf_count
+
+    def on_mount(self) -> None:
+        self.update_time()
+        # Set up a timer to update the clock every second
+        self.set_interval(1, self.update_time)
+        
+    def update_time(self) -> None:
+        """Update the time displayed."""
+        self.now_perf_count = time.perf_counter() - self.init_perf_count
+        ftime =  time.strftime("%H:%M:%S", time.gmtime(self.now_perf_count))
+
+        self.clock = ftime
+        self.border_title = f' {self.title}  {self.clock} '
 
 
 class FloatView(Static):
@@ -82,7 +92,15 @@ class FloatView(Static):
     def compose(self) -> ComposeResult:
         yield Overview()
 
-
+class Overview(Widget):
+    id = 'overview'
+    def __init__(self):
+        super().__init__(id='overview')
+        
+    def compose(self):
+        # yield Clock()
+        yield Details({'count': 99999,'byte': '114g'})
+        
         
 class MainApp(App):
     def __init__(self, driver_class = None, css_path = None, watch_css = False):
