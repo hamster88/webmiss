@@ -1,9 +1,9 @@
 from webmiss import textual_main
 
 
-
-
-if __name__ == "__main__":
+def main():
     textual_main.MainApp().run()
     
-       
+
+if __name__ == "__main__":
+    main()

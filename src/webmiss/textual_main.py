@@ -32,7 +32,7 @@ class Overview(Widget):
         super().__init__(id='overview')
         
     def compose(self):
-        yield Clock()
+        # yield Clock()
         yield Details({'count': 99999,'byte': '114g'})
         
     
@@ -81,7 +81,6 @@ class FloatView(Static):
     
     def compose(self) -> ComposeResult:
         yield Overview()
-        # yield Static('aaa')
 
 
         
@@ -92,7 +91,8 @@ class MainApp(App):
     
     def on_mount(self) -> None:
         # Set the app's theme
-        self.theme = "gruvbox"
+        self.theme = "nord"
+        # self.theme = "gruvbox"
         
     def compose(self) -> ComposeResult:
         yield MainView()
