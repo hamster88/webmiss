@@ -1,6 +1,8 @@
 from random import randint
-from webmiss import FetchTask
+from webmiss import FetchTask, wm
 import requests
+
+wm.concurrent  = 16
 
 # 定义两个 URL 模板，用于模拟 API 请求
 # 第一个 URL 用于获取令牌（token），需要提供用户名和密码
@@ -10,7 +12,7 @@ url2 = 'http://httpbin.org/anything/post/{}?action=like&token={}'
 
 # 定义一个自定义任务类 `CustomTask`，继承自 `FetchTask`
 class CustomTask(FetchTask):
-    # 定义类的属性，用于存储用户名、密码、令牌和帖子 ID
+    # 定义属性，用于存储用户名、密码、令牌和帖子 ID
     username: str  # 用户名
     password: str  # 密码
     token: str     # 获取的令牌

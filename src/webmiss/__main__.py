@@ -1,8 +1,8 @@
-from webmiss import textual_main
+from webmiss import app
 
 
 def main():
-    textual_main.MainApp().run()
+    app.main()
     
 
 if __name__ == "__main__":

@@ -39,7 +39,9 @@ class SleepTask(Task):
         self.summary = f'Sleep {self.delay} seconds'
         
     def run(self):
+        print(f'start: {self.id} {self.title}')
         time.sleep(self.delay)
+        print(f'done: {self.id} {self.title}')
         
 
 class FetchTask(Task):
