@@ -1,3 +1,7 @@
+'''
+Display content with textual
+'''
+
 import re
 import time
 from textual.app import App, ComposeResult
@@ -54,18 +58,26 @@ class MainView(Static):
         super().__init__(classes='main-view')
     
             
+            
     def compose(self) -> ComposeResult:
         yield FloatView()
         yield ContentView()
         
 class ContentView(Static):
+    
+    running_data = Reactive({'--':'no data'})
+    finished_data = Reactive({})
+    message_data = Reactive({})
+    
+    running_count =  Reactive(0)
+    finished_count =  Reactive(0)
+    
     def __init__(self):
         super().__init__(classes='content-view')
-    
             
     def compose(self) -> ComposeResult:
-        yield Details({'y':2,'zzz':123}, 'Running')
-        yield Details({'y':2,'zzz':123}, 'Finished')
+        yield Details(self.running_data, 'Running')
+        yield Details(self.finished_data, 'Finished')
         yield MessageView({'error': 'none','submit':'some task'}, 'Message')
 
 
@@ -114,6 +126,15 @@ class MainApp(App):
         # Set the app's theme
         self.theme = "nord"
         self.theme = "gruvbox"
+        
+        self.set_interval(3, self.check)
+    
+    def check(self):
+        # TODO:
+        print('run check')
+        cv = self.query_one(".content-view")
+        cv.running_data = {'???':'mmm'}
+            
         
     def compose(self) -> ComposeResult:
         yield MainView()

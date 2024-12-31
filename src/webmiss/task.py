@@ -27,6 +27,7 @@ class Task:
         except Exception as e:
             self.error = f'Abort in task: {self.summary}\n{e}'
     
+    
 
 
 class SleepTask(Task):
@@ -34,7 +35,7 @@ class SleepTask(Task):
     
     def __init__(self):
         super().__init__()
-        self.delay = uniform(1, 5)
+        self.delay = uniform(20, 50)
         self.title = f'Sleep_{self.delay:.0f}'
         self.summary = f'Sleep {self.delay} seconds'
         
